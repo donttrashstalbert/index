@@ -212,7 +212,7 @@
           <li><span>🗞️</span><a href="https://www.stalbertgazette.com/local-news/construction-waste-fouls-wetland-10886112" rel="noopener noreferrer">St. Albert Gazette: Construction waste fouls Riverside wetland (July 2025)</a></li>
           <li><span>📺</span><a href="https://www.ctvnews.ca/edmonton/article/advocates-call-for-policy-change-to-protect-wildlife-from-litter-in-st-albert/" rel="noopener noreferrer">CTV News: Advocates call for policy change to protect wildlife from litter in St. Albert (August 2025)</a></li>
           <li><span>🗞️</span><a href="https://www.stalbertgazette.com/local-news/council-votes-to-set-new-standards-for-dealing-with-construction-waste-11227110" rel="noopener noreferrer">St. Albert Gazette: Council votes to set new standards for dealing with construction waste (September 2025)</a></li>
-          <li><span>⚖️</span><span style="font-size:1rem; line-height:1.5; font-weight:400;">This issue was a question posed to <a href="https://www.stalbertgazette.com/local-news/watch-st-albert-election-candidates-forum-11298954" rel="noopener noreferrer">mayoral candidates at the 2025 election forum.</a></span></li>
+          <li><span>⚖️</span><div style="font-size:1rem; line-height:1.5; font-weight:400; min-width:0;">This issue was a question posed to <a href="https://www.stalbertgazette.com/local-news/watch-st-albert-election-candidates-forum-11298954" rel="noopener noreferrer">mayoral candidates at the 2025 election forum.</a></div></li>
           <li><span>🗞️</span><a href="https://www.stalbertgazette.com/local-news/council-approves-bylaw-changes-to-tackle-construction-waste-12116555" rel="noopener noreferrer">St. Albert Gazette: Council approves bylaw changes to tackle construction waste (April 2026)</a></li>
           <li><span>📺</span><a href="https://www.ctvnews.ca/edmonton/article/st-albert-to-fine-builders-more-for-not-properly-storing-garbage/" rel="noopener noreferrer">CTV News: St. Albert to fine builders more for not properly storing garbage (May 2026)</a></li>
           <li><span>🗞️</span><a href="https://www.stalbertgazette.com/local-news/city-to-add-construction-debris-management-plan-to-development-agreements-12581610" rel="noopener noreferrer">St. Albert Gazette: City to add construction debris management plan to development agreements (July 2026)</a></li>
@@ -332,6 +332,11 @@
 
       <div class="mailto-fields" style="margin-top:12px;">
         <div style="margin-bottom:8px;">
+          <div style="font-size:14px; color:#374151;">Your name</div>
+          <input id="nameField" class="mailto-input" type="text" placeholder="First and last name" autocomplete="name" style="width:100%;" />
+          <div style="font-size:12px; color:#6b7280; margin-top:4px;">Signs the bottom of the letter automatically.</div>
+        </div>
+        <div style="margin-bottom:8px;">
           <div style="font-size:14px; color:#374151;">To</div>
           <div style="display:flex; gap:8px; align-items:center;">
             <input id="toField" class="mailto-input" type="text" value="contactmayor@stalbert.ca,sbiermanski@stalbert.ca,sclark@stalbert.ca,shughes@stalbert.ca,nkorotash@stalbert.ca,kmackay@stalbert.ca,apatrick@stalbert.ca" style="flex:1;" />
@@ -361,7 +366,7 @@
         <p>Please put real accountability in place: expect developers to be proactive and hold their own builders to a clean site, and have the City collect security up front, a strong agreement it can actually draw on, so that when a site is a mess we can clean it up right away instead of waiting weeks. Our parks are not job-site dumpsters. A good neighbour cleans up their own mess.</p>
         <p>Please keep pushing until this is actually resolved.</p>
         <p>Thank you,</p>
-        <p>[Your name]</p>
+        <p id="signatureLine">[Your name]</p>
       </div>
 
       <div class="button-row" style="margin-top:12px; display:flex; flex-direction:column; gap:8px;">
@@ -395,6 +400,9 @@
     var letterEl = document.getElementById("letterPreview");
     var toField = document.getElementById("toField");
     var subjectField = document.getElementById("subjectField");
+    var nameField = document.getElementById("nameField");
+    var signatureLine = document.getElementById("signatureLine");
+    var bccAddress = "donttrashstalbert@gmail.com";
 
     if (!mailtoBtn || !copyBtn || !letterEl || !toField || !subjectField) return;
 
@@ -420,7 +428,8 @@
 
       // Do NOT encode the recipient list; encode only subject/body
       return "mailto:" + to +
-        "?subject=" + encodeURIComponent(subject) +
+        "?bcc=" + encodeURIComponent(bccAddress) +
+        "&subject=" + encodeURIComponent(subject) +
         "&body=" + encodeURIComponent(body);
     }
 
@@ -431,10 +440,19 @@
     // Ensure the link is a real mailto even before the first click
     refreshHref();
 
+    // Fill the letter's signature line from the name field
+    function updateSignature() {
+      if (!signatureLine) return;
+      var name = nameField ? String(nameField.value || "").trim() : "";
+      signatureLine.textContent = name || "[Your name]";
+      refreshHref();
+    }
+
     // Keep it updated as the user edits fields/content
     toField.addEventListener("input", refreshHref);
     subjectField.addEventListener("input", refreshHref);
     letterEl.addEventListener("input", refreshHref);
+    if (nameField) nameField.addEventListener("input", updateSignature);
 
     // On click, update once more and let the browser follow the mailto link naturally
     mailtoBtn.addEventListener("click", function () {
@@ -543,6 +561,18 @@
         <a class="flickr-link-button" href="https://www.flickr.com/photos/donttrashstalbert" target="_blank" rel="noopener noreferrer">View more photos on Flickr</a>
       </p>
     </section> -->
+
+    <section class="home-content">
+      <div class="cta-box" style="display:flex; gap:28px; align-items:center; flex-wrap:wrap; justify-content:center;">
+        <a href="https://www.youtube.com/@DontTrashStAlbert" target="_blank" rel="noopener noreferrer" style="position:relative; flex:0 0 auto; display:block; line-height:0;">
+          <img src="images/youtube-thumb-ducks.jpg" alt="Ducks swimming in construction waste, Riverside, St. Albert" style="width:320px; max-width:100%; border-radius:12px; display:block;">
+          <span style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:66px; height:66px; background:rgba(255,0,0,0.92); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:26px; padding-left:5px;">▶</span>
+        </a>
+        <div style="flex:1 1 240px; min-width:240px; text-align:left;">
+          <a href="https://www.youtube.com/@DontTrashStAlbert" target="_blank" rel="noopener noreferrer" style="display:inline-block; background:#FF0000; color:#fff; font-weight:600; font-size:18px; padding:15px 28px; border-radius:10px; text-decoration:none;">▶ See more on YouTube</a>
+        </div>
+      </div>
+    </section>
 
     <section class="home-content">
       <div class="cta-box purple">
